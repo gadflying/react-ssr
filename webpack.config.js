@@ -1,9 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
 var nodeExternals = require('webpack-node-externals')
+var StylableWebpackPlugin = require('@stylable/webpack-plugin');
 
 var browserConfig = {
-  entry: './src/browser/index.js',
+  entry: './src/client/index.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
@@ -12,12 +13,25 @@ var browserConfig = {
   module: {
     rules: [
       { test: /\.(js)$/, use: 'babel-loader' },
-    ]
+
+        {
+            test: /\.(png|jpg|gif)$/,
+            use: [
+            {
+                loader: "url-loader",
+                options: {
+                    limit: 8192
+                }
+            }
+            ]
+        }
+        ]
   },
   plugins: [
     new webpack.DefinePlugin({
       __isBrowser__: "true"
-    })
+    }),
+    new StylableWebpackPlugin()
   ]
 }
 
@@ -32,13 +46,25 @@ var serverConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' }
+      { test: /\.(js)$/, use: 'babel-loader' },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+        {
+            loader: "url-loader",
+            options: {
+                limit: 8192
+            }
+        }
+        ]
+    }
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
       __isBrowser__: "false"
-    })
+    }),
+    new StylableWebpackPlugin()
   ]
 }
 
