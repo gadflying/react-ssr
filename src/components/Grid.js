@@ -56,6 +56,7 @@ class Grid extends Component {
               <li>@{owner.login}</li>
               <li>{stargazers_count} stars</li>
             </ul>
+            <button>click here</button>
           </li>
         ))}
       </ul>

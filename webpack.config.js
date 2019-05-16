@@ -1,19 +1,30 @@
-var path = require('path')
-var webpack = require('webpack')
-var nodeExternals = require('webpack-node-externals')
-var StylableWebpackPlugin = require('@stylable/webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const nodeExternals = require('webpack-node-externals')
+const StylableWebpackPlugin = require('@stylable/webpack-plugin');
+
+// output: {
+//   filename: "bundle.js",
+//   path: __dirname + "/dist"
+// },
 
 var browserConfig = {
   entry: './src/client/index.js',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/'
   },
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: "source-map",
+  // Add '.ts' and '.tsx' as resolvable extensions.
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
 
+// // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+// { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+
+      { test: /\.(js)$/, use: 'babel-loader' },
         {
             test: /\.(png|jpg|gif)$/,
             use: [
@@ -44,9 +55,12 @@ var serverConfig = {
     filename: 'server.js',
     publicPath: '/'
   },
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: "source-map",
   module: {
     rules: [
       { test: /\.(js)$/, use: 'babel-loader' },
+
       {
         test: /\.(png|jpg|gif)$/,
         use: [
